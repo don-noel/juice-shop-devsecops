@@ -28,7 +28,10 @@ pipeline {
 
         stage('Dependency Check') {
             steps {
-                echo 'Dependency check stage to be configured'
+                dir('D:/DevSecOps/juice-shop-lab/juice-shop') {
+                    dependencyCheck additionalArguments: '--scan . --format XML --format HTML', odcInstallation: 'DependencyCheck'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                }
             }
         }
 
