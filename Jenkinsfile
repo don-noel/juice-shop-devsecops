@@ -50,7 +50,8 @@ pipeline {
 
         stage('Checkov Scan') {
             steps {
-                echo 'Checkov scan stage to be configured'
+                bat 'checkov -d . > checkov-report.txt'
+                bat 'type checkov-report.txt'
             }
         }
 
