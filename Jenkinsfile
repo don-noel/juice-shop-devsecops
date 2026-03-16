@@ -58,8 +58,23 @@ pipeline {
         }
 
         stage('Checkov Scan') {
+            when {
+                expression {
+                    def order = [
+                        'Build Application': 1,
+                        'SAST Scan': 2,
+                        'Dependency Check': 3,
+                        'Docker Build': 4,
+                        'Trivy Scan': 5,
+                        'Checkov Scan': 6,
+                        'Docker Run': 7,
+                        'ZAP Scan (DAST)': 8
+                    ]
+                    return order[params.START_FROM] <= order['Checkov Scan']
+                }
+            }
             steps {
-                bat '"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m checkov -d . > checkov-report.txt'
+                bat '"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\checkov.cmd" -d . > checkov-report.txt'
                 bat 'type checkov-report.txt'
             }
         }
