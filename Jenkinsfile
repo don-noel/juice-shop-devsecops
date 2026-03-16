@@ -20,12 +20,7 @@ pipeline {
                 expression { false }
             }
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    script {
-                        def scannerHome = tool 'SonarQubeScanner'
-                        bat "${scannerHome}\\bin\\sonar-scanner.bat -Dsonar.projectKey=juice-shop-devsecops -Dsonar.sources=."
-                    }
-                }
+                echo 'SAST skipped'
             }
         }
 
@@ -34,10 +29,7 @@ pipeline {
                 expression { false }
             }
             steps {
-                dir('D:/DevSecOps/juice-shop-lab/juice-shop') {
-                    dependencyCheck additionalArguments: '--scan . --format XML --format HTML', odcInstallation: 'DependencyCheck'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-                }
+                echo 'Dependency Check skipped'
             }
         }
 
@@ -46,7 +38,7 @@ pipeline {
                 expression { false }
             }
             steps {
-                bat 'docker build -t juice-shop-devsecops .'
+                echo 'Docker build skipped'
             }
         }
 
@@ -73,8 +65,9 @@ pipeline {
 
         stage('ZAP Scan (DAST)') {
             steps {
-                echo 'ZAP DAST stage to be configured'
+                echo 'ZAP DAST stage will be configured next'
             }
         }
+
     }
 }
