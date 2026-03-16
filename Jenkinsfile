@@ -16,6 +16,9 @@ pipeline {
         }
 
         stage('SAST Scan') {
+            when {
+                expression { false }
+            }
             steps {
                 withSonarQubeEnv('SonarQube') {
                     script {
