@@ -36,11 +36,11 @@ pipeline {
 
         stage('Dependency Check') {
             steps {
-                withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
-                    dependencyCheck additionalArguments: '--nvdApiKey %NVD_API_KEY% --scan . --format XML --format HTML --exclude node_modules --exclude test --exclude screenshots --exclude vagrant --exclude .github --exclude .gitlab --exclude .claude --exclude .codeium --exclude .continue --exclude .cursor --exclude .zap --exclude uploads/complaints --exclude .well-known',
+                dir('D:/DevSecOps/juice-shop-lab/juice-shop') {
+                    dependencyCheck additionalArguments: '--scan . --format XML --format HTML --exclude node_modules --exclude test --exclude screenshots --exclude vagrant --exclude .github --exclude .gitlab --exclude .claude --exclude .codeium --exclude .continue --exclude .cursor --exclude .zap --exclude uploads/complaints --exclude .well-known',
                     odcInstallation: 'DependencyCheck'
+                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
                 }
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
 
