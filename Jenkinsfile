@@ -16,11 +16,18 @@ pipeline {
         }
 
         stage('SAST Scan') {
-            when {
-                expression { false }
-            }
             steps {
-                echo 'SAST skipped'
+                withSonarQubeEnv('SonarQube') {
+                    script {
+                        def scannerHome = tool 'SonarQubeScanner'
+                        bat """
+                        ${scannerHome}\\bin\\sonar-scanner.bat ^
+                        -Dsonar.projectKey=juice-shop-devsecops ^
+                        -Dsonar.sources=. ^
+                        -Dsonar.exclusions=node_modules/**,test/**,screenshots/**,vagrant/**,.github/**,.gitlab/**,.claude/**,.codeium/**,.continue/**,.cursor/**,.zap/**,uploads/complaints/**,.well-known/**,*.md,*.yml,*.yaml
+                        """
+                    }
+                }
             }
         }
 
