@@ -50,7 +50,7 @@ pipeline {
 
         stage('Checkov Scan') {
             steps {
-                bat 'checkov -d . > checkov-report.txt'
+                bat '"C:\\Users\\USER\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\checkov.cmd" -d . > checkov-report.txt'
                 bat 'type checkov-report.txt'
             }
         }
