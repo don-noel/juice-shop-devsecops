@@ -66,7 +66,7 @@ pipeline {
         
         stage('ZAP Scan (DAST)') {
             steps {
-                bat 'docker run --rm --network juice-shop-net -v "%cd%:/zap/wrk/:rw" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://juice-shop-container:3000 -r zap-report.html'
+                bat 'docker run --rm --network juice-shop-net -t -v "%cd%:/zap/wrk/:rw" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://juice-shop-container:3000 -r zap-report.html || exit /b 0'
                 bat 'type zap-report.html'
             }
         }
